@@ -2,208 +2,433 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Burger King Demo | Delivery</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/8074/8074788.png" type="image/png">
+    <title>Colégio Modelo | Excelência em Educação</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: '#EA1D2C', /* Vermelho BK */
-                        dark: '#502314', /* Marrom Burguer */
-                        light: '#F3F4F6'
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { -webkit-tap-highlight-color: transparent; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .modal-enter { animation: slideUp 0.3s ease-out forwards; }
-        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        body { font-family: 'Montserrat', sans-serif; }
+        
+        /* Animações do Slider */
+        .slider-container { position: relative; height: 600px; overflow: hidden; }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1s ease-in-out;
+            background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; }
+        .slide-content {
+            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+        }
+
+        /* Animação de Entrada */
+        .animate-up { animation: slideUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* Chatbot Notification */
+        .pulse-badge {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 pb-24">
+<body class="bg-gray-50 text-gray-800">
 
-    <header class="bg-dark text-white relative shadow-lg">
-        <div class="h-40 bg-cover bg-center absolute w-full opacity-40" style="background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80');"></div>
-        <div class="relative z-10 p-5 pt-8 flex items-center gap-4">
-            <div class="w-20 h-20 rounded-full border-4 border-white bg-white overflow-hidden shadow-md flex-shrink-0">
-                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Logo" class="w-full h-full object-cover p-1">
+    <div class="bg-blue-900 text-gray-300 text-xs py-2 hidden md:block">
+        <div class="container mx-auto px-6 flex justify-between">
+            <div class="flex gap-4">
+                <span><i class="fas fa-phone-alt mr-1"></i> (34) 3312-0000</span>
+                <span><i class="fas fa-envelope mr-1"></i> contato@colegiofuturo.com.br</span>
             </div>
-            <div>
-                <h1 class="text-2xl font-bold leading-tight">Burger Demo</h1>
-                <div class="flex items-center gap-2 text-sm text-gray-300 mt-1">
-                    <span class="bg-green-500 w-2 h-2 rounded-full animate-pulse"></span>
-                    <span>Aberto agora</span> • <span>30-45 min</span>
+            <div class="flex gap-4">
+                <span><i class="fas fa-map-marker-alt mr-1"></i> Uberaba - MG</span>
+                <a href="#" class="hover:text-white transition">Área do Responsável</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="https://cdn-icons-png.flaticon.com/512/8074/8074788.png" alt="Logo Colégio" class="w-12 h-12">
+                <div>
+                    <h1 class="text-xl font-bold text-blue-900 tracking-tight leading-none">COLÉGIO<br>FUTURO</h1>
                 </div>
             </div>
+            <div class="hidden md:flex space-x-8 font-semibold text-sm text-gray-600">
+                <a href="#" class="text-blue-600">Início</a>
+                <a href="#pedagogico" class="hover:text-blue-600 transition">Pedagógico</a>
+                <a href="#segmentos" class="hover:text-blue-600 transition">Segmentos</a>
+                <a href="#blog" class="hover:text-blue-600 transition">Blog & Notícias</a>
+            </div>
+            <a href="#matricula" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-6 rounded-full transition shadow-lg transform hover:scale-105">
+                MATRÍCULAS 2026
+            </a>
         </div>
-        <div class="relative z-10 bg-black/30 backdrop-blur-sm px-5 py-3 text-xs flex justify-between border-t border-white/10">
-            <div><i class="fas fa-fire text-brand mr-1"></i> Grelhado no Fogo</div>
-            <div><i class="fas fa-star text-yellow-400 mr-1"></i> 4.8 (1k+)</div>
-        </div>
-    </header>
-
-    <nav class="sticky top-0 z-30 bg-white shadow-sm border-b border-gray-100 overflow-x-auto scrollbar-hide">
-        <div class="flex px-4 gap-6 min-w-max" id="category-nav"></div>
     </nav>
 
-    <main id="menu-container" class="p-4 space-y-8"></main>
-
-    <div id="cart-float-btn" onclick="toggleModal(true)" class="fixed bottom-6 left-4 right-4 bg-brand text-white p-4 rounded-xl shadow-2xl flex justify-between items-center transform translate-y-24 transition-transform duration-300 z-40 cursor-pointer hover:bg-red-700">
-        <div class="flex items-center gap-3"><div class="bg-white/20 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" id="cart-count">0</div><span class="font-medium text-sm">Ver sacola</span></div><div class="font-bold" id="cart-total-float">R$ 0,00</div>
-    </div>
-
-    <div id="cart-modal" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="toggleModal(false)"></div>
-        <div class="absolute bottom-0 w-full bg-white rounded-t-3xl shadow-2xl h-[90vh] flex flex-col modal-enter">
-            <div class="p-5 border-b flex justify-between items-center bg-gray-50 rounded-t-3xl"><h2 class="font-bold text-lg text-gray-800">Finalizar Pedido</h2><button onclick="toggleModal(false)" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button></div>
-            <div class="flex-1 overflow-y-auto p-5 space-y-6">
-                <div id="cart-items" class="space-y-4"></div>
-                <div id="empty-cart-msg" class="text-center py-10 hidden"><i class="fas fa-hamburger text-4xl text-gray-200 mb-3"></i><p class="text-gray-400">Sua sacola está vazia.</p></div>
-                <hr class="border-gray-100">
-                <div>
-                    <h3 class="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide">Entrega</h3>
-                    <div class="flex gap-3">
-                        <label class="flex-1 border rounded-lg p-3 cursor-pointer hover:border-brand transition-colors has-[:checked]:border-brand has-[:checked]:bg-red-50"><input type="radio" name="delivery-type" value="delivery" class="hidden" checked onchange="toggleDeliveryFields()"><div class="flex flex-col items-center gap-1 text-sm"><i class="fas fa-motorcycle text-brand text-lg"></i><span class="font-semibold">Entrega</span></div></label>
-                        <label class="flex-1 border rounded-lg p-3 cursor-pointer hover:border-brand transition-colors has-[:checked]:border-brand has-[:checked]:bg-red-50"><input type="radio" name="delivery-type" value="pickup" class="hidden" onchange="toggleDeliveryFields()"><div class="flex flex-col items-center gap-1 text-sm"><i class="fas fa-store text-brand text-lg"></i><span class="font-semibold">Retirar</span></div></label>
+    <div class="slider-container">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1600');">
+            <div class="slide-content absolute inset-0 flex items-center">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-2xl text-white animate-up" style="animation-delay: 0.2s;">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Uberaba - MG</span>
+                        <h2 class="text-5xl md:text-6xl font-bold mt-4 mb-6 leading-tight">Formando líderes para o mundo.</h2>
+                        <p class="text-xl mb-8 opacity-90">Uma metodologia que une tradição e tecnologia para desenvolver o potencial máximo do seu filho.</p>
+                        <button onclick="toggleChat()" class="bg-white text-blue-900 px-8 py-3 rounded font-bold hover:bg-gray-100 transition">Agendar Visita</button>
                     </div>
                 </div>
-                <div id="address-fields" class="space-y-3 bg-gray-50 p-4 rounded-lg border border-gray-200"><input type="text" id="input-bairro" placeholder="Bairro" class="w-full p-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-brand"><div class="flex gap-3"><input type="text" id="input-rua" placeholder="Rua / Avenida" class="flex-2 w-full p-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-brand"><input type="text" id="input-num" placeholder="Nº" class="w-24 p-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-brand"></div></div>
-                <div>
-                    <h3 class="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide">Pagamento</h3>
-                    <select id="payment-method" class="w-full p-3 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-brand" onchange="toggleChangeField()"><option value="pix">Pagamento via PIX</option><option value="card">Cartão (Levar maquininha)</option><option value="money">Dinheiro</option></select>
-                    <div id="change-field" class="hidden mt-3"><label class="text-xs text-gray-500 mb-1 block">Troco para quanto?</label><input type="text" id="input-troco" placeholder="Ex: R$ 50,00" class="w-full p-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-brand"></div>
-                </div>
-                <div><h3 class="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide">Seus Dados</h3><input type="text" id="input-name" placeholder="Seu Nome" class="w-full p-3 rounded-lg border border-gray-300 text-sm mb-3 focus:outline-none focus:border-brand"></div>
             </div>
-            <div class="p-5 bg-white border-t shadow-[0_-5px_15px_rgba(0,0,0,0.05)]"><div class="flex justify-between items-end mb-4"><span class="text-gray-500 text-sm">Total a pagar</span><span class="text-2xl font-bold text-gray-800" id="final-total">R$ 0,00</span></div><button onclick="finishOrder()" class="w-full bg-brand text-white font-bold py-4 rounded-xl shadow-lg hover:bg-red-700 active:scale-95 transition-transform flex items-center justify-center gap-2"><span>Enviar Pedido via WhatsApp</span><i class="fab fa-whatsapp text-xl"></i></button></div>
+        </div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1600');">
+            <div class="slide-content absolute inset-0 flex items-center">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-2xl text-white">
+                        <span class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Inovação</span>
+                        <h2 class="text-5xl md:text-6xl font-bold mt-4 mb-6 leading-tight">Tecnologia e Sala Maker.</h2>
+                        <p class="text-xl mb-8 opacity-90">Robótica, Programação e Inteligência Artificial integradas ao currículo desde o fundamental.</p>
+                        <button class="bg-yellow-500 text-blue-900 px-8 py-3 rounded font-bold hover:bg-yellow-400 transition">Conheça o Lab</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-4 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-4 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <section class="bg-blue-900 text-white py-12">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <h3 class="text-4xl font-bold text-yellow-400">25</h3>
+                <p class="text-sm uppercase tracking-wide mt-2">Anos de História</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-bold text-yellow-400">1.200+</h3>
+                <p class="text-sm uppercase tracking-wide mt-2">Alunos Formados</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-bold text-yellow-400">1º</h3>
+                <p class="text-sm uppercase tracking-wide mt-2">Lugar no ENEM</p>
+            </div>
+            <div>
+                <h3 class="text-4xl font-bold text-yellow-400">100%</h3>
+                <p class="text-sm uppercase tracking-wide mt-2">Corpo Docente Especializado</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="segmentos" class="py-20 bg-white">
+        <div class="container mx-auto px-6 text-center mb-16">
+            <span class="text-blue-600 font-bold uppercase tracking-wider text-sm">Jornada Acadêmica</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Ensino que acompanha cada fase</h2>
+        </div>
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="group cursor-pointer">
+                <div class="overflow-hidden rounded-xl shadow-lg relative h-64">
+                    <img src="https://images.unsplash.com/photo-1587654780291-39c940483713?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Educação Infantil</h3>
+                        <p class="text-blue-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Descoberta, ludicidade e os primeiros passos no bilinguismo.</p>
+                    </div>
+                </div>
+            </div>
+             <div class="group cursor-pointer">
+                <div class="overflow-hidden rounded-xl shadow-lg relative h-64">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Ensino Fundamental</h3>
+                        <p class="text-blue-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Consolidação do aprendizado, robótica e desenvolvimento socioemocional.</p>
+                    </div>
+                </div>
+            </div>
+             <div class="group cursor-pointer">
+                <div class="overflow-hidden rounded-xl shadow-lg relative h-64">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Ensino Médio</h3>
+                        <p class="text-blue-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Foco total no vestibular, projeto de vida e simulados digitais.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-900 mb-10 border-l-4 border-yellow-500 pl-4">Acontece no Colégio</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row hover:shadow-xl transition">
+                    <div class="md:w-1/2 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1577896334614-201b37d54406?q=80&w=800');"></div>
+                    <div class="p-6 md:w-1/2 flex flex-col justify-center">
+                        <span class="text-xs font-bold text-blue-600 uppercase mb-2">Eventos</span>
+                        <h3 class="font-bold text-xl mb-3">Feira de Ciências 2025: Inscrições Abertas</h3>
+                        <p class="text-gray-600 text-sm mb-4">Nossos alunos apresentarão projetos focados em sustentabilidade local.</p>
+                        <a href="#" class="text-blue-600 font-bold text-sm hover:underline">Ler mais &rarr;</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row hover:shadow-xl transition">
+                    <div class="md:w-1/2 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800');"></div>
+                    <div class="p-6 md:w-1/2 flex flex-col justify-center">
+                        <span class="text-xs font-bold text-green-600 uppercase mb-2">Esportes</span>
+                        <h3 class="font-bold text-xl mb-3">Jogos Escolares de Minas Gerais</h3>
+                        <p class="text-gray-600 text-sm mb-4">Nossa equipe de Futsal se classifica para a final estadual.</p>
+                        <a href="#" class="text-blue-600 font-bold text-sm hover:underline">Ler mais &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="matricula" class="py-20 bg-blue-900 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1664575609135-c10f785b3378?q=80&w=1600')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+        <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 text-white">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Garanta o futuro do seu filho.</h2>
+                <p class="text-blue-100 mb-8 text-lg">As vagas são limitadas. Preencha o formulário para receber nosso Guia Pedagógico Completo e a tabela de valores atualizada.</p>
+                <ul class="space-y-4">
+                    <li class="flex items-center"><i class="fas fa-check text-yellow-400 mr-3"></i> Material Didático Incluso</li>
+                    <li class="flex items-center"><i class="fas fa-check text-yellow-400 mr-3"></i> Seguro Educacional</li>
+                    <li class="flex items-center"><i class="fas fa-check text-yellow-400 mr-3"></i> Monitoria Online</li>
+                </ul>
+            </div>
+            <div class="md:w-1/2 w-full bg-white rounded-2xl p-8 shadow-2xl">
+                <h3 class="text-gray-800 text-2xl font-bold mb-6 text-center">Solicitar Proposta</h3>
+                <form onsubmit="simularEnvio(event)" id="formMatricula" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Nome do Responsável</label>
+                        <input type="text" class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500" placeholder="Ex: Maria Silva">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">WhatsApp</label>
+                        <input type="text" class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500" placeholder="(34) 99999-9999">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Segmento de Interesse</label>
+                        <select class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500">
+                            <option>Educação Infantil</option>
+                            <option>Ensino Fundamental</option>
+                            <option>Ensino Médio</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="btnMatricula" class="w-full bg-yellow-500 text-blue-900 font-bold py-4 rounded hover:bg-yellow-400 transition shadow-lg mt-4">
+                        QUERO RECEBER A PROPOSTA
+                    </button>
+                    <div id="msgMatricula" class="hidden text-center text-green-600 font-bold text-sm bg-green-50 p-2 rounded border border-green-200">
+                        <i class="fas fa-check-circle"></i> Solicitação enviada! Verifique seu WhatsApp em instantes.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 text-sm">
+        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">Colégio Futuro</h4>
+                <p>Educação de excelência em Uberaba, preparando alunos para os desafios do século XXI.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Links Rápidos</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">Trabalhe Conosco</a></li>
+                    <li><a href="#" class="hover:text-white">Portal do Aluno</a></li>
+                    <li><a href="#" class="hover:text-white">Lista de Material</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Contato</h4>
+                <ul class="space-y-2">
+                    <li>Rua das Flores, 123 - Mercês</li>
+                    <li>Uberaba - MG</li>
+                    <li>(34) 3312-0000</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Redes Sociais</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-500 text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-500 text-white"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+            <p>Desenvolvido para Demonstração Comercial. © 2026.</p>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="chatNotification" class="bg-white p-4 rounded-xl shadow-xl mb-4 border-l-4 border-yellow-500 max-w-xs animate-up hidden relative flex items-start gap-3">
+            <button onclick="closeNotification()" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fas fa-times"></i></button>
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-10 h-10 rounded-full object-cover border-2 border-yellow-500">
+            <p class="text-sm text-gray-800">Olá! 🎓 As matrículas 2026 estão com desconto especial essa semana. Quer saber mais?</p>
+        </div>
+
+        <button onclick="toggleChat()" class="relative bg-blue-600 hover:bg-blue-500 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition transform hover:scale-110">
+            <i class="fas fa-comment-dots"></i>
+            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center pulse-badge">1</span>
+        </button>
+    </div>
+
+    <div id="chatWindow" class="fixed bottom-24 right-6 w-80 md:w-96 bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200 flex flex-col h-[500px] hidden z-50">
+        <div class="bg-gradient-to-r from-blue-900 to-blue-700 p-4 text-white flex justify-between items-center shadow">
+            <div class="flex items-center gap-3">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-10 h-10 rounded-full object-cover border-2 border-white">
+                <div>
+                    <p class="font-bold text-sm">Secretaria Virtual</p>
+                    <p class="text-xs text-blue-200 flex items-center gap-1"><span class="w-2 h-2 bg-green-400 rounded-full"></span> Online</p>
+                </div>
+            </div>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-300"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div id="chatBody" class="flex-1 p-4 overflow-y-auto bg-gray-100 space-y-4">
+            <div class="text-center text-xs text-gray-400 my-2">Hoje</div>
+            <div class="flex items-start gap-2 animate-up">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-blue-200">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-full h-full object-cover">
+                </div>
+                <div class="bg-white p-3 rounded-xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%]">
+                    Olá! Sou a assistente virtual do Colégio Futuro. Posso te ajudar com dúvidas financeiras, pedagógicas ou matrículas.
+                </div>
+            </div>
+            <div class="flex gap-2 flex-wrap animate-up" style="animation-delay: 0.2s;">
+                <button onclick="sendMessage('Valores das mensalidades')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition">💰 Valores</button>
+                <button onclick="sendMessage('Agendar uma visita')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition">📅 Visita</button>
+                <button onclick="sendMessage('Lista de material')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition">📚 Material</button>
+            </div>
+        </div>
+
+        <div class="p-3 bg-white border-t border-gray-200">
+            <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
+                <input id="chatInput" type="text" placeholder="Escreva sua mensagem..." class="flex-1 text-sm p-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                <button type="submit" class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"><i class="fas fa-paper-plane"></i></button>
+            </form>
         </div>
     </div>
-    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-2xl z-[60] text-sm font-medium transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i><span>Item adicionado!</span></div>
 
     <script>
-        // --- DADOS DO CARDÁPIO ATUALIZADOS ---
-        const menuData = [
-            {
-                category: "Os Favoritos",
-                icon: "🔥",
-                items: [
-                    { id: 1, name: "Double Cheddar Bacon", desc: "Pão de brioche, 2 carnes grelhadas, muito bacon e dobro de cheddar.", price: 34.90, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-                    { id: 2, name: "Big Salad Burger", desc: "A opção equilibrada: Carne 180g, alface americana, tomate fresco, picles e molho especial.", price: 28.50, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-                    { id: 3, name: "Chicken Crispy Supreme", desc: "Filé de frango empanado ultra crocante, maionese temperada e alface.", price: 26.90, img: "https://images.unsplash.com/photo-1615551309143-69d3d2dfd7e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
-                ]
-            },
-            {
-                category: "Acompanhamentos",
-                icon: "🍟",
-                items: [
-                    { id: 4, name: "Batata Frita Grande", desc: "Crocante e sequinha. Acompanha maionese verde.", price: 14.90, img: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-                    { id: 5, name: "Onion Rings (8 un)", desc: "Anéis de cebola empanados e dourados.", price: 16.50, img: "https://images.unsplash.com/photo-1639024471283-03518883512d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-                    { id: 6, name: "Nuggets (10 un)", desc: "Crocantes por fora, macios por dentro.", price: 15.00, img: "https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
-                ]
-            },
-            {
-                category: "Bebidas & Shakes",
-                icon: "🥤",
-                items: [
-                    { id: 7, name: "Milkshake Morango", desc: "Feito com sorvete de verdade e calda de morango.", price: 18.00, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" },
-                    { id: 8, name: "Refrigerante Lata", desc: "Coca, Guaraná ou Fanta (Escolha na obs).", price: 6.00, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" }
-                ]
+        // --- LÓGICA DO SLIDER ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        // Auto-play do slider
+        setInterval(() => { changeSlide(1); }, 6000);
+
+        // --- LÓGICA DO CHATBOT ---
+        // Mostrar notificação após 3 segundos
+        setTimeout(() => {
+            document.getElementById('chatNotification').classList.remove('hidden');
+        }, 3000);
+
+        function closeNotification() {
+            document.getElementById('chatNotification').classList.add('hidden');
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            const notif = document.getElementById('chatNotification');
+            notif.classList.add('hidden'); // Esconde notificação ao abrir
+            
+            if (chat.classList.contains('hidden')) {
+                chat.classList.remove('hidden');
+            } else {
+                chat.classList.add('hidden');
             }
-        ];
-
-        let cart = [];
-
-        document.addEventListener('DOMContentLoaded', () => { renderMenu(); renderCategories(); });
-
-        function renderCategories() {
-            const nav = document.getElementById('category-nav');
-            menuData.forEach((cat, index) => {
-                const activeClass = index === 0 ? 'text-brand border-b-2 border-brand font-bold' : 'text-gray-500 hover:text-gray-800';
-                nav.innerHTML += `<a href="#cat-${index}" class="whitespace-nowrap py-4 px-2 text-sm transition-colors ${activeClass}">${cat.icon} ${cat.category}</a>`;
-            });
         }
 
-        function renderMenu() {
-            const container = document.getElementById('menu-container');
-            menuData.forEach((cat, index) => {
-                let itemsHtml = '';
-                cat.items.forEach(item => {
-                    itemsHtml += `
-                        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex gap-4 transition-transform active:scale-[0.98]">
-                            <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200">
-                                <img src="${item.img}" class="w-full h-full object-cover" loading="lazy" alt="${item.name}">
-                            </div>
-                            <div class="flex flex-col flex-1 justify-between">
-                                <div><h3 class="font-bold text-gray-800 text-sm line-clamp-1">${item.name}</h3><p class="text-xs text-gray-500 line-clamp-2 mt-1">${item.desc}</p></div>
-                                <div class="flex justify-between items-center mt-2"><span class="font-bold text-brand">R$ ${item.price.toFixed(2).replace('.', ',')}</span><button onclick="addToCart(${item.id})" class="bg-gray-100 text-gray-800 w-8 h-8 rounded-full flex items-center justify-center hover:bg-brand hover:text-white transition-colors"><i class="fas fa-plus text-xs"></i></button></div>
-                            </div>
-                        </div>`;
-                });
-                container.innerHTML += `<div id="cat-${index}" class="scroll-mt-32"><h2 class="font-bold text-lg text-gray-800 mb-3 ml-1">${cat.category}</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${itemsHtml}</div></div>`;
-            });
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            if(!input.value) return;
+            sendMessage(input.value);
+            input.value = '';
         }
 
-        function addToCart(id) {
-            const item = findItem(id);
-            const existingItem = cart.find(i => i.id === id);
-            if (existingItem) { existingItem.qty++; } else { cart.push({ ...item, qty: 1 }); }
-            updateCartUI();
-            showToast(`"${item.name}" adicionado!`);
+        function sendMessage(text) {
+            const body = document.getElementById('chatBody');
+            
+            // Mensagem do usuário
+            body.innerHTML += `
+                <div class="flex items-end justify-end gap-2 mb-2 animate-up">
+                    <div class="bg-blue-600 text-white p-3 rounded-xl rounded-tr-none text-sm shadow-md max-w-[80%]">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            body.scrollTop = body.scrollHeight;
+
+            // Simulação de "Digitando..."
+            const typingIndicator = document.createElement('div');
+            typingIndicator.id = 'typing';
+            typingIndicator.className = 'flex items-center gap-2 mb-2 text-xs text-gray-500 ml-2';
+            typingIndicator.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Digitando...';
+            body.appendChild(typingIndicator);
+            body.scrollTop = body.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById('typing').remove();
+                
+                let resposta = "Entendi. Para essa solicitação específica, vou transferir para um humano. Um momento.";
+                const lower = text.toLowerCase();
+
+                if(lower.includes('valor') || lower.includes('preço') || lower.includes('mensalidade')) {
+                    resposta = "O investimento varia de acordo com o segmento. Para 2026, temos condições especiais para matrículas antecipadas com até <b>15% de desconto</b>. Gostaria de receber a tabela no seu WhatsApp?";
+                } else if(lower.includes('visita') || lower.includes('agendar')) {
+                    resposta = "Será um prazer receber você! Nossas visitas são guiadas pela coordenação. Temos horário amanhã às 09h ou às 15h. Qual prefere?";
+                } else if(lower.includes('material') || lower.includes('livro')) {
+                    resposta = "Utilizamos o Sistema de Ensino [Nome Fictício], que é referência nacional. O material é atualizado anualmente e tem integração total com nossa plataforma digital.";
+                }
+
+                // Ajuste para usar a foto da IA na resposta também
+                body.innerHTML += `
+                    <div class="flex items-start gap-2 mb-2 animate-up">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-blue-200">
+                             <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-full h-full object-cover">
+                        </div>
+                        <div class="bg-white p-3 rounded-xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100 max-w-[85%]">
+                            ${resposta}
+                        </div>
+                    </div>
+                `;
+                body.scrollTop = body.scrollHeight;
+            }, 1500);
         }
 
-        function removeFromCart(id) {
-            const index = cart.findIndex(i => i.id === id);
-            if (index > -1) { if (cart[index].qty > 1) { cart[index].qty--; } else { cart.splice(index, 1); } }
-            updateCartUI();
-        }
+        // --- LÓGICA DO FORMULÁRIO DE MATRÍCULA ---
+        function simularEnvio(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnMatricula');
+            const msg = document.getElementById('msgMatricula');
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+            btn.disabled = true;
+            btn.classList.add('opacity-70');
 
-        function findItem(id) { for (let cat of menuData) { for (let item of cat.items) { if (item.id === id) return item; } } }
-
-        function updateCartUI() {
-            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
-            const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-            document.getElementById('cart-count').innerText = totalQty;
-            document.getElementById('cart-total-float').innerText = formatCurrency(totalPrice);
-            document.getElementById('final-total').innerText = formatCurrency(totalPrice);
-            const floatBtn = document.getElementById('cart-float-btn');
-            totalQty > 0 ? floatBtn.classList.remove('translate-y-24') : floatBtn.classList.add('translate-y-24');
-            const itemsContainer = document.getElementById('cart-items');
-            if (cart.length === 0) { itemsContainer.innerHTML = ''; document.getElementById('empty-cart-msg').classList.remove('hidden'); } else { document.getElementById('empty-cart-msg').classList.add('hidden'); itemsContainer.innerHTML = cart.map(item => `<div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0"><div class="flex-1"><div class="text-sm font-semibold text-gray-800">${item.name}</div><div class="text-xs text-brand font-bold">${formatCurrency(item.price * item.qty)}</div></div><div class="flex items-center gap-3 bg-gray-100 rounded-lg p-1"><button onclick="removeFromCart(${item.id})" class="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-red-500"><i class="fas fa-minus text-xs"></i></button><span class="text-sm font-bold w-4 text-center">${item.qty}</span><button onclick="addToCart(${item.id})" class="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-green-500"><i class="fas fa-plus text-xs"></i></button></div></div>`).join(''); }
-        }
-
-        function toggleModal(show) { const modal = document.getElementById('cart-modal'); show ? modal.classList.remove('hidden') : modal.classList.add('hidden'); }
-        function toggleDeliveryFields() { const isDelivery = document.querySelector('input[name="delivery-type"]:checked').value === 'delivery'; const addressFields = document.getElementById('address-fields'); isDelivery ? addressFields.classList.remove('hidden') : addressFields.classList.add('hidden'); }
-        function toggleChangeField() { const method = document.getElementById('payment-method').value; const field = document.getElementById('change-field'); method === 'money' ? field.classList.remove('hidden') : field.classList.add('hidden'); }
-        function showToast(msg) { const toast = document.getElementById('toast'); toast.querySelector('span').innerText = msg; toast.classList.remove('opacity-0', 'translate-y-[-20px]'); setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-[-20px]'); }, 2500); }
-        function formatCurrency(value) { return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
-        function finishOrder() {
-            if (cart.length === 0) return showToast("Seu carrinho está vazio!");
-            const name = document.getElementById('input-name').value;
-            if (!name) return alert("Por favor, digite seu nome.");
-            let text = `*NOVO PEDIDO - ${name}*\n\n`;
-            cart.forEach(item => { text += `▪ ${item.qty}x ${item.name} \n`; });
-            text += `\n*Total: ${document.getElementById('final-total').innerText}*\n--------------------------\n`;
-            const type = document.querySelector('input[name="delivery-type"]:checked').value;
-            text += type === 'delivery' ? `🛵 *Entrega para:*\n${document.getElementById('input-rua').value}, ${document.getElementById('input-bairro').value}\n` : `🛍 *Retirada no Balcão*\n`;
-            const paymentText = document.getElementById('payment-method').options[document.getElementById('payment-method').selectedIndex].text;
-            text += `💳 *Pagamento:* ${paymentText}`;
-            if (document.getElementById('payment-method').value === 'money') { const troco = document.getElementById('input-troco').value; if(troco) text += `\n💵 Troco para: ${troco}`; }
-            // window.open(`https://wa.me/55SEUNUMERO?text=${encodeURIComponent(text)}`);
-            alert("Simulação: Mensagem pronta para envio!\n\n" + text);
+            setTimeout(() => {
+                btn.innerHTML = 'QUERO RECEBER A PROPOSTA';
+                btn.disabled = false;
+                btn.classList.remove('opacity-70');
+                msg.classList.remove('hidden');
+                document.getElementById('formMatricula').reset();
+                setTimeout(() => { msg.classList.add('hidden'); }, 6000);
+            }, 2000);
         }
     </script>
 </body>
