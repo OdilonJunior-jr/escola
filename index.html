@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,26 +11,32 @@
     <style>
         body { font-family: 'Montserrat', sans-serif; }
         
-        /* Animações do Slider */
-        .slider-container { position: relative; height: 600px; overflow: hidden; }
+        /* Ajuste do Slider para Mobile */
+        .slider-container { position: relative; overflow: hidden; }
+        
+        /* Altura dinâmica: 100% da altura da tela no mobile, 600px no PC */
+        .h-slider { height: 85vh; } 
+        @media (min-width: 768px) { .h-slider { height: 600px; } }
+
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             opacity: 0; transition: opacity 1s ease-in-out;
             background-size: cover; background-position: center;
         }
         .slide.active { opacity: 1; }
+        
+        /* Gradiente mais forte no mobile para leitura */
         .slide-content {
-            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+        }
+        @media (min-width: 768px) {
+            .slide-content { background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.1)); }
         }
 
-        /* Animação de Entrada */
         .animate-up { animation: slideUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px); }
         @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Chatbot Notification */
-        .pulse-badge {
-            animation: pulse-red 2s infinite;
-        }
+        .pulse-badge { animation: pulse-red 2s infinite; }
         @keyframes pulse-red {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
@@ -38,7 +44,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
     <div class="bg-blue-900 text-gray-300 text-xs py-2 hidden md:block">
         <div class="container mx-auto px-6 flex justify-between">
@@ -53,135 +59,148 @@
         </div>
     </div>
 
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <img src="https://cdn-icons-png.flaticon.com/512/8074/8074788.png" alt="Logo Colégio" class="w-12 h-12">
+                <img src="https://cdn-icons-png.flaticon.com/512/8074/8074788.png" alt="Logo Colégio" class="w-10 h-10 md:w-12 md:h-12">
                 <div>
-                    <h1 class="text-xl font-bold text-blue-900 tracking-tight leading-none">COLÉGIO<br>FUTURO</h1>
+                    <h1 class="text-lg md:text-xl font-bold text-blue-900 tracking-tight leading-none">COLÉGIO<br>FUTURO</h1>
                 </div>
             </div>
-            <div class="hidden md:flex space-x-8 font-semibold text-sm text-gray-600">
+
+            <div class="hidden md:flex space-x-8 font-semibold text-sm text-gray-600 items-center">
                 <a href="#" class="text-blue-600">Início</a>
                 <a href="#pedagogico" class="hover:text-blue-600 transition">Pedagógico</a>
                 <a href="#segmentos" class="hover:text-blue-600 transition">Segmentos</a>
-                <a href="#blog" class="hover:text-blue-600 transition">Blog & Notícias</a>
+                <a href="#blog" class="hover:text-blue-600 transition">Blog</a>
+                <a href="#matricula" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-6 rounded-full transition shadow-lg transform hover:scale-105">
+                    MATRÍCULAS
+                </a>
             </div>
-            <a href="#matricula" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold py-2 px-6 rounded-full transition shadow-lg transform hover:scale-105">
-                MATRÍCULAS 2026
-            </a>
+
+            <button onclick="toggleMobileMenu()" class="md:hidden text-blue-900 text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="flex flex-col p-4 space-y-4 font-semibold text-gray-700">
+                <a href="#" onclick="toggleMobileMenu()" class="block hover:text-blue-600">Início</a>
+                <a href="#segmentos" onclick="toggleMobileMenu()" class="block hover:text-blue-600">Segmentos</a>
+                <a href="#blog" onclick="toggleMobileMenu()" class="block hover:text-blue-600">Blog & Notícias</a>
+                <a href="tel:+553433120000" class="block text-gray-500 text-sm"><i class="fas fa-phone mr-2"></i>Ligar agora</a>
+                <a href="#matricula" onclick="toggleMobileMenu()" class="block text-center bg-yellow-500 text-blue-900 py-3 rounded-lg font-bold">
+                    MATRÍCULAS 2026
+                </a>
+            </div>
         </div>
     </nav>
 
-    <div class="slider-container">
+    <div class="slider-container h-slider">
         <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1600');">
             <div class="slide-content absolute inset-0 flex items-center">
-                <div class="container mx-auto px-6">
-                    <div class="max-w-2xl text-white animate-up" style="animation-delay: 0.2s;">
-                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Uberaba - MG</span>
-                        <h2 class="text-5xl md:text-6xl font-bold mt-4 mb-6 leading-tight">Formando líderes para o mundo.</h2>
-                        <p class="text-xl mb-8 opacity-90">Uma metodologia que une tradição e tecnologia para desenvolver o potencial máximo do seu filho.</p>
-                        <button onclick="toggleChat()" class="bg-white text-blue-900 px-8 py-3 rounded font-bold hover:bg-gray-100 transition">Agendar Visita</button>
+                <div class="container mx-auto px-6 pt-20 md:pt-0">
+                    <div class="max-w-2xl text-white animate-up">
+                        <span class="bg-blue-600 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Uberaba - MG</span>
+                        <h2 class="text-4xl md:text-6xl font-bold mt-4 mb-4 md:mb-6 leading-tight">Líderes para o mundo.</h2>
+                        <p class="text-base md:text-xl mb-6 md:mb-8 opacity-90">Tradição e tecnologia para desenvolver o potencial máximo do seu filho.</p>
+                        <button onclick="toggleChat()" class="w-full md:w-auto bg-white text-blue-900 px-8 py-3 rounded font-bold hover:bg-gray-100 transition shadow-lg">Agendar Visita</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1600');">
             <div class="slide-content absolute inset-0 flex items-center">
-                <div class="container mx-auto px-6">
+                <div class="container mx-auto px-6 pt-20 md:pt-0">
                     <div class="max-w-2xl text-white">
-                        <span class="bg-green-600 text-white text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Inovação</span>
-                        <h2 class="text-5xl md:text-6xl font-bold mt-4 mb-6 leading-tight">Tecnologia e Sala Maker.</h2>
-                        <p class="text-xl mb-8 opacity-90">Robótica, Programação e Inteligência Artificial integradas ao currículo desde o fundamental.</p>
-                        <button class="bg-yellow-500 text-blue-900 px-8 py-3 rounded font-bold hover:bg-yellow-400 transition">Conheça o Lab</button>
+                        <span class="bg-green-600 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded uppercase tracking-wider">Inovação</span>
+                        <h2 class="text-4xl md:text-6xl font-bold mt-4 mb-4 md:mb-6 leading-tight">Tecnologia e Maker.</h2>
+                        <p class="text-base md:text-xl mb-6 md:mb-8 opacity-90">Robótica e Inteligência Artificial integradas ao currículo.</p>
+                        <button class="w-full md:w-auto bg-yellow-500 text-blue-900 px-8 py-3 rounded font-bold hover:bg-yellow-400 transition shadow-lg">Conheça o Lab</button>
                     </div>
                 </div>
             </div>
         </div>
         
-        <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-4 rounded-full transition"><i class="fas fa-chevron-left"></i></button>
-        <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-4 rounded-full transition"><i class="fas fa-chevron-right"></i></button>
+        <button onclick="changeSlide(-1)" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-3 md:p-4 rounded-full transition z-10"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="changeSlide(1)" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white p-3 md:p-4 rounded-full transition z-10"><i class="fas fa-chevron-right"></i></button>
     </div>
 
     <section class="bg-blue-900 text-white py-12">
         <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-                <h3 class="text-4xl font-bold text-yellow-400">25</h3>
-                <p class="text-sm uppercase tracking-wide mt-2">Anos de História</p>
+            <div class="mb-4 md:mb-0">
+                <h3 class="text-3xl md:text-4xl font-bold text-yellow-400">25</h3>
+                <p class="text-xs md:text-sm uppercase tracking-wide mt-2">Anos de História</p>
+            </div>
+            <div class="mb-4 md:mb-0">
+                <h3 class="text-3xl md:text-4xl font-bold text-yellow-400">1.2k+</h3>
+                <p class="text-xs md:text-sm uppercase tracking-wide mt-2">Alunos Formados</p>
+            </div>
+            <div class="mb-4 md:mb-0">
+                <h3 class="text-3xl md:text-4xl font-bold text-yellow-400">1º</h3>
+                <p class="text-xs md:text-sm uppercase tracking-wide mt-2">Lugar no ENEM</p>
             </div>
             <div>
-                <h3 class="text-4xl font-bold text-yellow-400">1.200+</h3>
-                <p class="text-sm uppercase tracking-wide mt-2">Alunos Formados</p>
-            </div>
-            <div>
-                <h3 class="text-4xl font-bold text-yellow-400">1º</h3>
-                <p class="text-sm uppercase tracking-wide mt-2">Lugar no ENEM</p>
-            </div>
-            <div>
-                <h3 class="text-4xl font-bold text-yellow-400">100%</h3>
-                <p class="text-sm uppercase tracking-wide mt-2">Corpo Docente Especializado</p>
+                <h3 class="text-3xl md:text-4xl font-bold text-yellow-400">100%</h3>
+                <p class="text-xs md:text-sm uppercase tracking-wide mt-2">Professores Esp.</p>
             </div>
         </div>
     </section>
 
-    <section id="segmentos" class="py-20 bg-white">
-        <div class="container mx-auto px-6 text-center mb-16">
+    <section id="segmentos" class="py-16 md:py-20 bg-white">
+        <div class="container mx-auto px-6 text-center mb-10 md:mb-16">
             <span class="text-blue-600 font-bold uppercase tracking-wider text-sm">Jornada Acadêmica</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Ensino que acompanha cada fase</h2>
+            <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mt-2">Ensino para cada fase</h2>
         </div>
-        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-8">
-            <div class="group cursor-pointer">
-                <div class="overflow-hidden rounded-xl shadow-lg relative h-64">
-                    <img src="https://images.unsplash.com/photo-1587654780291-39c940483713?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">Educação Infantil</h3>
-                        <p class="text-blue-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Descoberta, ludicidade e os primeiros passos no bilinguismo.</p>
-                    </div>
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-6 md:gap-8">
+            <div class="group cursor-pointer relative overflow-hidden rounded-xl shadow-lg h-80 md:h-64">
+                <img src="https://images.unsplash.com/photo-1587654780291-39c940483713?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/40 to-transparent opacity-90 md:opacity-80"></div>
+                <div class="absolute bottom-0 left-0 p-6 w-full">
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Educação Infantil</h3>
+                    <p class="text-blue-100 text-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">Descoberta, ludicidade e os primeiros passos no bilinguismo.</p>
                 </div>
             </div>
-             <div class="group cursor-pointer">
-                <div class="overflow-hidden rounded-xl shadow-lg relative h-64">
-                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">Ensino Fundamental</h3>
-                        <p class="text-blue-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Consolidação do aprendizado, robótica e desenvolvimento socioemocional.</p>
-                    </div>
+
+             <div class="group cursor-pointer relative overflow-hidden rounded-xl shadow-lg h-80 md:h-64">
+                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/40 to-transparent opacity-90 md:opacity-80"></div>
+                <div class="absolute bottom-0 left-0 p-6 w-full">
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Ensino Fundamental</h3>
+                    <p class="text-blue-100 text-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">Consolidação do aprendizado, robótica e socioemocional.</p>
                 </div>
             </div>
-             <div class="group cursor-pointer">
-                <div class="overflow-hidden rounded-xl shadow-lg relative h-64">
-                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900 to-transparent opacity-80"></div>
-                    <div class="absolute bottom-0 left-0 p-6">
-                        <h3 class="text-2xl font-bold text-white mb-2">Ensino Médio</h3>
-                        <p class="text-blue-200 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">Foco total no vestibular, projeto de vida e simulados digitais.</p>
-                    </div>
+
+             <div class="group cursor-pointer relative overflow-hidden rounded-xl shadow-lg h-80 md:h-64">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800" class="w-full h-full object-cover transition transform group-hover:scale-110 duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/40 to-transparent opacity-90 md:opacity-80"></div>
+                <div class="absolute bottom-0 left-0 p-6 w-full">
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Ensino Médio</h3>
+                    <p class="text-blue-100 text-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">Foco total no vestibular, projeto de vida e simulados.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="blog" class="py-20 bg-gray-50">
+    <section id="blog" class="py-16 md:py-20 bg-gray-50">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-gray-900 mb-10 border-l-4 border-yellow-500 pl-4">Acontece no Colégio</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 border-l-4 border-yellow-500 pl-4">Acontece no Colégio</h2>
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row hover:shadow-xl transition">
-                    <div class="md:w-1/2 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1577896334614-201b37d54406?q=80&w=800');"></div>
+                    <div class="h-48 md:w-1/2 md:h-auto bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1577896334614-201b37d54406?q=80&w=800');"></div>
                     <div class="p-6 md:w-1/2 flex flex-col justify-center">
                         <span class="text-xs font-bold text-blue-600 uppercase mb-2">Eventos</span>
-                        <h3 class="font-bold text-xl mb-3">Feira de Ciências 2025: Inscrições Abertas</h3>
-                        <p class="text-gray-600 text-sm mb-4">Nossos alunos apresentarão projetos focados em sustentabilidade local.</p>
+                        <h3 class="font-bold text-lg md:text-xl mb-3">Feira de Ciências 2025</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Nossos alunos apresentarão projetos focados em sustentabilidade local.</p>
                         <a href="#" class="text-blue-600 font-bold text-sm hover:underline">Ler mais &rarr;</a>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row hover:shadow-xl transition">
-                    <div class="md:w-1/2 h-48 md:h-auto bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800');"></div>
+                    <div class="h-48 md:w-1/2 md:h-auto bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800');"></div>
                     <div class="p-6 md:w-1/2 flex flex-col justify-center">
                         <span class="text-xs font-bold text-green-600 uppercase mb-2">Esportes</span>
-                        <h3 class="font-bold text-xl mb-3">Jogos Escolares de Minas Gerais</h3>
-                        <p class="text-gray-600 text-sm mb-4">Nossa equipe de Futsal se classifica para a final estadual.</p>
+                        <h3 class="font-bold text-lg md:text-xl mb-3">Jogos Escolares de MG</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Nossa equipe de Futsal se classifica para a final estadual.</p>
                         <a href="#" class="text-blue-600 font-bold text-sm hover:underline">Ler mais &rarr;</a>
                     </div>
                 </div>
@@ -189,42 +208,42 @@
         </div>
     </section>
 
-    <section id="matricula" class="py-20 bg-blue-900 relative overflow-hidden">
+    <section id="matricula" class="py-16 md:py-20 bg-blue-900 relative overflow-hidden">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1664575609135-c10f785b3378?q=80&w=1600')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
         <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2 text-white">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6">Garanta o futuro do seu filho.</h2>
-                <p class="text-blue-100 mb-8 text-lg">As vagas são limitadas. Preencha o formulário para receber nosso Guia Pedagógico Completo e a tabela de valores atualizada.</p>
-                <ul class="space-y-4">
+            <div class="md:w-1/2 text-white text-center md:text-left">
+                <h2 class="text-2xl md:text-4xl font-bold mb-4 md:mb-6">Garanta o futuro do seu filho.</h2>
+                <p class="text-blue-100 mb-8 text-base md:text-lg">As vagas são limitadas. Preencha o formulário para receber nosso Guia Pedagógico Completo.</p>
+                <ul class="space-y-4 text-left inline-block">
                     <li class="flex items-center"><i class="fas fa-check text-yellow-400 mr-3"></i> Material Didático Incluso</li>
                     <li class="flex items-center"><i class="fas fa-check text-yellow-400 mr-3"></i> Seguro Educacional</li>
                     <li class="flex items-center"><i class="fas fa-check text-yellow-400 mr-3"></i> Monitoria Online</li>
                 </ul>
             </div>
-            <div class="md:w-1/2 w-full bg-white rounded-2xl p-8 shadow-2xl">
-                <h3 class="text-gray-800 text-2xl font-bold mb-6 text-center">Solicitar Proposta</h3>
+            <div class="w-full md:w-1/2 bg-white rounded-2xl p-6 md:p-8 shadow-2xl">
+                <h3 class="text-gray-800 text-xl md:text-2xl font-bold mb-6 text-center">Solicitar Proposta</h3>
                 <form onsubmit="simularEnvio(event)" id="formMatricula" class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Nome do Responsável</label>
-                        <input type="text" class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500" placeholder="Ex: Maria Silva">
+                        <input type="text" class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500 text-sm" placeholder="Ex: Maria Silva" required>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">WhatsApp</label>
-                        <input type="text" class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500" placeholder="(34) 99999-9999">
+                        <input type="tel" class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500 text-sm" placeholder="(34) 99999-9999" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Segmento de Interesse</label>
-                        <select class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500">
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Segmento</label>
+                        <select class="w-full bg-gray-50 border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500 text-sm">
                             <option>Educação Infantil</option>
                             <option>Ensino Fundamental</option>
                             <option>Ensino Médio</option>
                         </select>
                     </div>
-                    <button type="submit" id="btnMatricula" class="w-full bg-yellow-500 text-blue-900 font-bold py-4 rounded hover:bg-yellow-400 transition shadow-lg mt-4">
+                    <button type="submit" id="btnMatricula" class="w-full bg-yellow-500 text-blue-900 font-bold py-3 md:py-4 rounded hover:bg-yellow-400 transition shadow-lg mt-4 active:scale-95">
                         QUERO RECEBER A PROPOSTA
                     </button>
-                    <div id="msgMatricula" class="hidden text-center text-green-600 font-bold text-sm bg-green-50 p-2 rounded border border-green-200">
-                        <i class="fas fa-check-circle"></i> Solicitação enviada! Verifique seu WhatsApp em instantes.
+                    <div id="msgMatricula" class="hidden text-center text-green-600 font-bold text-xs md:text-sm bg-green-50 p-2 rounded border border-green-200">
+                        <i class="fas fa-check-circle"></i> Solicitação enviada!
                     </div>
                 </form>
             </div>
@@ -232,7 +251,7 @@
     </section>
 
     <footer class="bg-gray-900 text-gray-400 py-12 text-sm">
-        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-8">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             <div>
                 <h4 class="text-white font-bold text-lg mb-4">Colégio Futuro</h4>
                 <p>Educação de excelência em Uberaba, preparando alunos para os desafios do século XXI.</p>
@@ -253,7 +272,7 @@
                     <li>(34) 3312-0000</li>
                 </ul>
             </div>
-            <div>
+            <div class="flex flex-col items-center md:items-start">
                 <h4 class="text-white font-bold mb-4">Redes Sociais</h4>
                 <div class="flex space-x-4">
                     <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 text-white"><i class="fab fa-facebook-f"></i></a>
@@ -267,20 +286,20 @@
         </div>
     </footer>
 
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-        <div id="chatNotification" class="bg-white p-4 rounded-xl shadow-xl mb-4 border-l-4 border-yellow-500 max-w-xs animate-up hidden relative flex items-start gap-3">
+    <div class="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end">
+        <div id="chatNotification" class="bg-white p-3 md:p-4 rounded-xl shadow-xl mb-4 border-l-4 border-yellow-500 max-w-[280px] md:max-w-xs animate-up hidden relative flex items-start gap-3">
             <button onclick="closeNotification()" class="absolute top-1 right-2 text-gray-400 hover:text-gray-600 text-xs"><i class="fas fa-times"></i></button>
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-10 h-10 rounded-full object-cover border-2 border-yellow-500">
-            <p class="text-sm text-gray-800">Olá! 🎓 As matrículas 2026 estão com desconto especial essa semana. Quer saber mais?</p>
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border-2 border-yellow-500">
+            <p class="text-xs md:text-sm text-gray-800">Olá! 🎓 As matrículas 2026 estão com desconto. Quer saber mais?</p>
         </div>
 
-        <button onclick="toggleChat()" class="relative bg-blue-600 hover:bg-blue-500 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition transform hover:scale-110">
+        <button onclick="toggleChat()" class="relative bg-blue-600 hover:bg-blue-500 text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-2xl flex items-center justify-center text-xl md:text-2xl transition transform hover:scale-110 active:scale-95">
             <i class="fas fa-comment-dots"></i>
             <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center pulse-badge">1</span>
         </button>
     </div>
 
-    <div id="chatWindow" class="fixed bottom-24 right-6 w-80 md:w-96 bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200 flex flex-col h-[500px] hidden z-50">
+    <div id="chatWindow" class="fixed bottom-20 right-4 md:bottom-24 md:right-6 w-[calc(100%-2rem)] md:w-96 bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200 flex flex-col h-[450px] md:h-[500px] hidden z-50">
         <div class="bg-gradient-to-r from-blue-900 to-blue-700 p-4 text-white flex justify-between items-center shadow">
             <div class="flex items-center gap-3">
                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-10 h-10 rounded-full object-cover border-2 border-white">
@@ -289,35 +308,41 @@
                     <p class="text-xs text-blue-200 flex items-center gap-1"><span class="w-2 h-2 bg-green-400 rounded-full"></span> Online</p>
                 </div>
             </div>
-            <button onclick="toggleChat()" class="text-white hover:text-gray-300"><i class="fas fa-times"></i></button>
+            <button onclick="toggleChat()" class="text-white hover:text-gray-300 px-2"><i class="fas fa-times"></i></button>
         </div>
         
         <div id="chatBody" class="flex-1 p-4 overflow-y-auto bg-gray-100 space-y-4">
             <div class="text-center text-xs text-gray-400 my-2">Hoje</div>
             <div class="flex items-start gap-2 animate-up">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-blue-200">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-blue-200 flex-shrink-0">
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-full h-full object-cover">
                 </div>
                 <div class="bg-white p-3 rounded-xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%]">
-                    Olá! Sou a assistente virtual do Colégio Futuro. Posso te ajudar com dúvidas financeiras, pedagógicas ou matrículas.
+                    Olá! Sou a assistente virtual. Toque em uma opção abaixo:
                 </div>
             </div>
             <div class="flex gap-2 flex-wrap animate-up" style="animation-delay: 0.2s;">
-                <button onclick="sendMessage('Valores das mensalidades')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition">💰 Valores</button>
-                <button onclick="sendMessage('Agendar uma visita')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition">📅 Visita</button>
-                <button onclick="sendMessage('Lista de material')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition">📚 Material</button>
+                <button onclick="sendMessage('Valores das mensalidades')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition active:bg-blue-100">💰 Valores</button>
+                <button onclick="sendMessage('Agendar uma visita')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition active:bg-blue-100">📅 Visita</button>
+                <button onclick="sendMessage('Lista de material')" class="text-xs bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-full hover:bg-blue-50 transition active:bg-blue-100">📚 Material</button>
             </div>
         </div>
 
         <div class="p-3 bg-white border-t border-gray-200">
             <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
-                <input id="chatInput" type="text" placeholder="Escreva sua mensagem..." class="flex-1 text-sm p-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                <input id="chatInput" type="text" placeholder="Digite aqui..." class="flex-1 text-sm p-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
                 <button type="submit" class="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"><i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
     </div>
 
     <script>
+        // --- LÓGICA DO MENU MOBILE ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
         // --- LÓGICA DO SLIDER ---
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
@@ -328,13 +353,17 @@
             slides[currentSlide].classList.add('active');
         }
         
-        // Auto-play do slider
+        // Intervalo de troca (pausa se o usuário interagir, idealmente)
         setInterval(() => { changeSlide(1); }, 6000);
 
         // --- LÓGICA DO CHATBOT ---
-        // Mostrar notificação após 3 segundos
         setTimeout(() => {
-            document.getElementById('chatNotification').classList.remove('hidden');
+            const notification = document.getElementById('chatNotification');
+            const chatWindow = document.getElementById('chatWindow');
+            // Só mostra notificação se o chat não estiver aberto
+            if(chatWindow.classList.contains('hidden')) {
+                notification.classList.remove('hidden');
+            }
         }, 3000);
 
         function closeNotification() {
@@ -344,19 +373,20 @@
         function toggleChat() {
             const chat = document.getElementById('chatWindow');
             const notif = document.getElementById('chatNotification');
-            notif.classList.add('hidden'); // Esconde notificação ao abrir
+            notif.classList.add('hidden');
             
-            if (chat.classList.contains('hidden')) {
-                chat.classList.remove('hidden');
-            } else {
-                chat.classList.add('hidden');
+            chat.classList.toggle('hidden');
+            
+            // Foca no input ao abrir (melhor UX para desktop, opcional no mobile para não abrir teclado)
+            if(!chat.classList.contains('hidden') && window.innerWidth > 768) {
+                document.getElementById('chatInput').focus();
             }
         }
 
         function handleChatSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
-            if(!input.value) return;
+            if(!input.value.trim()) return;
             sendMessage(input.value);
             input.value = '';
         }
@@ -364,42 +394,42 @@
         function sendMessage(text) {
             const body = document.getElementById('chatBody');
             
-            // Mensagem do usuário
+            // Mensagem Usuário
             body.innerHTML += `
                 <div class="flex items-end justify-end gap-2 mb-2 animate-up">
-                    <div class="bg-blue-600 text-white p-3 rounded-xl rounded-tr-none text-sm shadow-md max-w-[80%]">
+                    <div class="bg-blue-600 text-white p-3 rounded-xl rounded-tr-none text-sm shadow-md max-w-[80%] break-words">
                         ${text}
                     </div>
                 </div>
             `;
             body.scrollTop = body.scrollHeight;
 
-            // Simulação de "Digitando..."
+            // Loading
+            const typingId = 'typing-' + Date.now();
             const typingIndicator = document.createElement('div');
-            typingIndicator.id = 'typing';
+            typingIndicator.id = typingId;
             typingIndicator.className = 'flex items-center gap-2 mb-2 text-xs text-gray-500 ml-2';
             typingIndicator.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Digitando...';
             body.appendChild(typingIndicator);
             body.scrollTop = body.scrollHeight;
 
             setTimeout(() => {
-                document.getElementById('typing').remove();
+                document.getElementById(typingId).remove();
                 
-                let resposta = "Entendi. Para essa solicitação específica, vou transferir para um humano. Um momento.";
+                let resposta = "Entendi. Vou chamar um consultor humano para te ajudar no WhatsApp.";
                 const lower = text.toLowerCase();
 
                 if(lower.includes('valor') || lower.includes('preço') || lower.includes('mensalidade')) {
-                    resposta = "O investimento varia de acordo com o segmento. Para 2026, temos condições especiais para matrículas antecipadas com até <b>15% de desconto</b>. Gostaria de receber a tabela no seu WhatsApp?";
+                    resposta = "Para 2026, temos descontos de até <b>15% na matrícula</b> antecipada. Quer receber a tabela completa?";
                 } else if(lower.includes('visita') || lower.includes('agendar')) {
-                    resposta = "Será um prazer receber você! Nossas visitas são guiadas pela coordenação. Temos horário amanhã às 09h ou às 15h. Qual prefere?";
+                    resposta = "Claro! As visitas acontecem de segunda a sexta. Posso agendar para amanhã?";
                 } else if(lower.includes('material') || lower.includes('livro')) {
-                    resposta = "Utilizamos o Sistema de Ensino [Nome Fictício], que é referência nacional. O material é atualizado anualmente e tem integração total com nossa plataforma digital.";
+                    resposta = "Usamos material didático digital e físico atualizado, focado no ENEM e vestibulares.";
                 }
 
-                // Ajuste para usar a foto da IA na resposta também
                 body.innerHTML += `
                     <div class="flex items-start gap-2 mb-2 animate-up">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-blue-200">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border border-blue-200 flex-shrink-0">
                              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150" class="w-full h-full object-cover">
                         </div>
                         <div class="bg-white p-3 rounded-xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100 max-w-[85%]">
@@ -408,26 +438,27 @@
                     </div>
                 `;
                 body.scrollTop = body.scrollHeight;
-            }, 1500);
+            }, 1000);
         }
 
-        // --- LÓGICA DO FORMULÁRIO DE MATRÍCULA ---
+        // --- SIMULAÇÃO ENVIO FORMULÁRIO ---
         function simularEnvio(e) {
             e.preventDefault();
             const btn = document.getElementById('btnMatricula');
             const msg = document.getElementById('msgMatricula');
+            const originalText = btn.innerHTML;
             
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
             btn.disabled = true;
-            btn.classList.add('opacity-70');
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
 
             setTimeout(() => {
-                btn.innerHTML = 'QUERO RECEBER A PROPOSTA';
+                btn.innerHTML = originalText;
                 btn.disabled = false;
-                btn.classList.remove('opacity-70');
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
                 msg.classList.remove('hidden');
                 document.getElementById('formMatricula').reset();
-                setTimeout(() => { msg.classList.add('hidden'); }, 6000);
+                setTimeout(() => { msg.classList.add('hidden'); }, 5000);
             }, 2000);
         }
     </script>
